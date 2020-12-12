@@ -51,10 +51,20 @@ public class Game extends Canvas implements Runnable {
 
     @Override
     public void run() {
+        long lastTime = System.nanoTime();
+        final double ns = 1000000000.0 / 60.0;
+        double delta = 0;
         while (running) {
-            update();
+            long now = System.nanoTime();
+            delta += (now-lastTime) / ns;
+            lastTime = now;
+            while (delta >= 1) {
+                update();
+                delta--;
+            }
             render();
         }
+        stop();
     }
 
     public void update() {
