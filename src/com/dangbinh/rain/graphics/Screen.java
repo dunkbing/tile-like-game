@@ -8,8 +8,9 @@ public class Screen {
     private final int height;
     public int[] pixels;
 
-    public static int tile_size = 64;
-    public int[] tiles = new int[tile_size*tile_size];
+    public static final int TILE_SIZE = 64;
+    public static final int TILE_SIZE_MASK = TILE_SIZE - 1;
+    public int[] tiles = new int[TILE_SIZE * TILE_SIZE];
 
     private Random random = new Random();
 
@@ -18,7 +19,7 @@ public class Screen {
         this.height = height;
         pixels = new int[width * height];
 
-        for (int i = 0; i < 64*64; i++) {
+        for (int i = 0; i < TILE_SIZE * TILE_SIZE; i++) {
             tiles[i] = random.nextInt(0xffffff);
         }
     }
@@ -27,11 +28,13 @@ public class Screen {
         Arrays.fill(pixels, 0);
     }
 
-    public void render() {
+    public void render(int xOffset, int yOffset) {
         for (int y = 0; y < height; y++) {
+            int yy = y + yOffset;
             for (int x = 0; x < width; x++) {
+                int xx = x + xOffset;
                 // int tileIndex = (x / 16) + (y / 16) * tile_size;
-                int tileIndex = (x >> 4) + (y >> 4) * tile_size;
+                int tileIndex = ((xx >> 4) & TILE_SIZE_MASK) + ((yy >> 4) & TILE_SIZE_MASK) * TILE_SIZE;
                 pixels[x+y*width] = tiles[tileIndex]; // color code in hex
             }
         }

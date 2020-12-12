@@ -80,8 +80,10 @@ public class Game extends Canvas implements Runnable {
         stop();
     }
 
+    int x = 0, y = 0;
     public void update() {
-
+        x++;
+        y++;
     }
 
     public void render() {
@@ -92,7 +94,7 @@ public class Game extends Canvas implements Runnable {
         }
 
         screen.clear();
-        screen.render();
+        screen.render(x, 0);
         System.arraycopy(screen.pixels, 0, pixels, 0, pixels.length);
 
         Graphics g = bs.getDrawGraphics();
