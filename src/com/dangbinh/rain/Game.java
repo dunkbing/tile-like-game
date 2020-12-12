@@ -1,5 +1,7 @@
 package com.dangbinh.rain;
 
+import com.dangbinh.rain.graphics.Screen;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -17,6 +19,8 @@ public class Game extends Canvas implements Runnable {
     private JFrame frame;
     private boolean running = false;
 
+    private Screen screen;
+
     // creating and accessing the image
     private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
@@ -24,6 +28,8 @@ public class Game extends Canvas implements Runnable {
     public Game() {
         Dimension size = new Dimension(width*scale, height*scale);
         setPreferredSize(size);
+
+        screen = new Screen(width, height);
 
         frame = new JFrame();
     }
