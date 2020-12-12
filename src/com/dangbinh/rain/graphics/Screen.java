@@ -1,5 +1,7 @@
 package com.dangbinh.rain.graphics;
 
+import java.util.Arrays;
+
 public class Screen {
     private final int width;
     private final int height;
@@ -9,6 +11,10 @@ public class Screen {
         this.width = width;
         this.height = height;
         pixels = new int[width * height];
+    }
+
+    public void clear() {
+        Arrays.fill(pixels, 0);
     }
 
     public void render() {
