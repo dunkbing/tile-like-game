@@ -17,14 +17,14 @@ public class Game extends Canvas implements Runnable {
     public static String title = "Rain";
 
     private Thread thread;
-    private JFrame frame;
+    private final JFrame frame;
     private boolean running = false;
 
-    private Screen screen;
+    private final Screen screen;
 
     // creating and accessing the image
-    private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-    private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
+    private final BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+    private final int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
 
     public Game() {
         Dimension size = new Dimension(width*scale, height*scale);
@@ -54,7 +54,7 @@ public class Game extends Canvas implements Runnable {
     public void run() {
         long lastTime = System.nanoTime();
         long timer = System.currentTimeMillis();
-        final double ns = 1000000000.0 / 60.0;
+        final double ns = 1e9 / 60.0;
         double delta = 0;
         int frames = 0;
         int updates = 0;
@@ -93,9 +93,7 @@ public class Game extends Canvas implements Runnable {
 
         screen.clear();
         screen.render();
-        for (int i = 0; i < pixels.length; i++) {
-            pixels[i] = screen.pixels[i];
-        }
+        System.arraycopy(screen.pixels, 0, pixels, 0, pixels.length);
 
         Graphics g = bs.getDrawGraphics();
         g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
